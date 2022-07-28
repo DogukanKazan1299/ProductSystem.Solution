@@ -6,6 +6,7 @@ using DataAccess.Abstract;
 using Entities.Concrete;
 using ProductSystem.Core.Aspects.Autofac.Validation;
 using ProductSystem.Core.CrossCuttingConcerns.Validation;
+using ProductSystem.Core.Utilities.Business;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,6 +26,11 @@ namespace Business.Concrete
         [ValidationAspect(typeof(ProductValidator))]
         public IResult Add(Product product)
         {
+            IResult result = BusinessRules.Run(CheckProductName(product.ProductName));
+            if (result != null)
+            {
+                return result;
+            }
             _productDal.Add(product);
             return new SuccessResult(Messages.AddProduct);
         }
@@ -46,6 +52,19 @@ namespace Business.Concrete
         {
             _productDal.Update(product);
             return new SuccessResult(Messages.UpdateProduct);
+        }
+
+
+        //İş kodumuz : Aynı isimli ürün eklenemez.
+
+        private IResult CheckProductName(string productName)
+        {
+            var result = _productDal.GetList(x=>x.ProductName==productName).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.ProductNameAlreadyExists);
+            }
+            return new SuccessResult();
         }
     }
 }

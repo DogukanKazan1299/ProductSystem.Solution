@@ -23,7 +23,10 @@ namespace Business.Constants
         public static string UserAlreadyExists = "Kullanici Zaten Mevcut";
         public static string UserRegistered = "Kullanici Basariyla Kaydedildi";
         public static string AccessTokenCreated = "Access Token Basariyla Olusturuldu";
-        public static string CountryNameAlreadyExists="Bu isimde zaten ülke var";
+
+        public static string ProductNameAlreadyExists="Bu isimde zaten ürün var";
+        public static string CategoryNameAlreadyExists = "Bu isimde zaten kategori var";
+        public static string CategoryCount = "kategori ekleme limitiniz doldu.";
         public static string AuthorizationDenied="Yetkiniz yok! ";
     }
 }
